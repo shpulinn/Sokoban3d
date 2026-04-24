@@ -1,6 +1,5 @@
 {
 	"name": "Sokoban.Tests.EditMode",
-	"rootNamespace": "",
 	"references": [
 		"Sokoban.Core",
 		"UnityEngine.TestRunner",
@@ -18,7 +17,5 @@
 	"autoReferenced": false,
 	"defineConstraints": [
 		"UNITY_INCLUDE_TESTS"
-	],
-	"versionDefines": [],
-	"noEngineReferences": false
+	]
 }
