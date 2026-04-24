@@ -1,5 +1,4 @@
 ﻿using _Project.Core;
-using _Project.Data;
 using UnityEngine;
 
 public class LevelRepository : MonoBehaviour, ILevelRepository
