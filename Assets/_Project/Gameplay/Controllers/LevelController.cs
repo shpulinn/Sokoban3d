@@ -8,6 +8,7 @@ public class LevelController : MonoBehaviour
 {
     [SerializeField] private LevelData _levelData;
     [SerializeField] private LevelView _levelView;
+    [SerializeField] private HUDView _hudView;
 
     private LevelModel _model;
     private CommandHistory _history;
@@ -24,6 +25,13 @@ public class LevelController : MonoBehaviour
         _model = _levelData.ToLevelModel();
         _history = new CommandHistory();
         _levelView.Build(_model);
+        
+        _hudView.Init(_history);
+        _hudView.SetRestartAction(Restart);
+        _hudView.UpdateUndoButton(false);
+
+        // Обновлять кнопку Undo при каждом изменении истории
+        _history.OnHistoryChanged += () => _hudView.UpdateUndoButton(_history.CanUndo);
     }
 
     private void Update()
@@ -56,7 +64,10 @@ public class LevelController : MonoBehaviour
     private async UniTaskVoid ExecuteMoveAsync(GridPosition delta)
     {
         _isAnimating = true;
+        _hudView.SetInteractable(false);
+        
         _cts?.Cancel();
+        _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
         bool pushesBox = _model.CanPushBox(delta);
@@ -73,6 +84,7 @@ public class LevelController : MonoBehaviour
             _model.PlayerPosition, boxOldPos, boxNewPos, _cts.Token);
 
         _isAnimating = false;
+        _hudView.SetInteractable(true);
 
         if (_model.IsCompleted())
             OnLevelComplete();
@@ -91,6 +103,7 @@ public class LevelController : MonoBehaviour
         
         _history.Undo();
         _levelView.Build(_model);
+        _hudView.SetInteractable(true);
     }
 
     private void Restart()
@@ -102,6 +115,7 @@ public class LevelController : MonoBehaviour
 
     private void OnLevelComplete()
     {
+        _hudView.SetInteractable(false);
         Debug.Log($"[LevelController] LEVEL COMPLETE! Moves: {_history.MoveCount}");
     }
 
