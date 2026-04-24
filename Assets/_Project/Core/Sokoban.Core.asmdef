@@ -1,3 +1,7 @@
 {
-	"name": "Sokoban.Core"
+	"name": "Sokoban.Core",
+	"references": [],
+	"includePlatforms": [],
+	"excludePlatforms": [],
+	"autoReferenced": true
 }
