@@ -2,13 +2,18 @@
 using System.Threading;
 using _Project.Core;
 using _Project.Core.Commands;
+using _Project.Core.Interfaces;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    [SerializeField] private LevelData _levelData;
     [SerializeField] private LevelView _levelView;
     [SerializeField] private HUDView _hudView;
+    
+    [SerializeField] private LevelRepositoryBase _levelRepository;
+    [SerializeField] private WinScreenView _winScreenView;
+
+    private int _currentLevelIndex = 0;
 
     private LevelModel _model;
     private CommandHistory _history;
@@ -22,7 +27,10 @@ public class LevelController : MonoBehaviour
 
     private void LoadLevel()
     {
-        _model = _levelData.ToLevelModel();
+        _isAnimating = false;
+        _winScreenView.Hide();
+        
+        _model = _levelRepository.GetLevel(_currentLevelIndex);
         _history = new CommandHistory();
         _levelView.Build(_model);
         
@@ -112,12 +120,24 @@ public class LevelController : MonoBehaviour
         _isAnimating = false;
         LoadLevel();
     }
-
+    
     private void OnLevelComplete()
     {
         _isAnimating = true;
         _hudView.SetInteractable(false);
-        Debug.Log($"[LevelController] LEVEL COMPLETE! Moves: {_history.MoveCount}");
+
+        bool hasNext = _currentLevelIndex + 1 < _levelRepository.GetLevelCount();
+
+        _winScreenView.Show(
+            _history.MoveCount,
+            hasNext,
+            onNext: () =>
+            {
+                _currentLevelIndex++;
+                LoadLevel();
+            },
+            onRestart: Restart
+        );
     }
 
     private void OnDestroy()
