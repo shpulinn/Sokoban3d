@@ -68,7 +68,7 @@ public class LevelView : MonoBehaviour
             }
         }
 
-        //CenterCamera();
+        CenterCamera();
     }
 
     public async UniTask AnimateMove(
