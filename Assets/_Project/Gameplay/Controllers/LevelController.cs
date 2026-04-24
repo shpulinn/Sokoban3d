@@ -26,7 +26,7 @@ public class LevelController : MonoBehaviour
         _history = new CommandHistory();
         _levelView.Build(_model);
         
-        _hudView.Init(_history);
+        _hudView.Init(_history, TryUndo);
         _hudView.SetRestartAction(Restart);
         _hudView.UpdateUndoButton(false);
 
@@ -115,6 +115,7 @@ public class LevelController : MonoBehaviour
 
     private void OnLevelComplete()
     {
+        _isAnimating = true;
         _hudView.SetInteractable(false);
         Debug.Log($"[LevelController] LEVEL COMPLETE! Moves: {_history.MoveCount}");
     }

@@ -9,12 +9,12 @@ public class HUDView : MonoBehaviour
     [SerializeField] private Button _undoButton;
     [SerializeField] private Button _restartButton;
 
-    public void Init(CommandHistory history)
+    public void Init(CommandHistory history, System.Action onUndo)
     {
         UpdateMoves(history.MoveCount);
         history.OnHistoryChanged += () => UpdateMoves(history.MoveCount);
 
-        _undoButton.onClick.AddListener(() => history.Undo());
+        _undoButton.onClick.AddListener(() => onUndo?.Invoke());
         _restartButton.onClick.RemoveAllListeners();
     }
 
