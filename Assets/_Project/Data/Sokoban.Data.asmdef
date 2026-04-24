@@ -1,0 +1,9 @@
+﻿{
+  "name": "Sokoban.Data",
+  "references": [
+    "Sokoban.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "autoReferenced": true
+}
