@@ -28,7 +28,8 @@ public class BoxView : MonoBehaviour
 
         ct.Register(() =>
         {
-            transform.DOKill();
+            if (this != null)
+                transform.DOKill();
             utcs.TrySetResult();
         });
 

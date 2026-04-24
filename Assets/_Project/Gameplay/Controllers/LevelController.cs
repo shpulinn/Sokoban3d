@@ -81,8 +81,15 @@ public class LevelController : MonoBehaviour
     private void TryUndo()
     {
         if (!_history.CanUndo) return;
+        
+        // отменяем cts токен
+        _cts?.Cancel();
+        _cts?.Dispose();
+        // создаем новый cts токен
+        _cts = new CancellationTokenSource();
+        _isAnimating = false;
+        
         _history.Undo();
-        // После undo — полностью перестраиваем View по актуальной модели
         _levelView.Build(_model);
     }
 
