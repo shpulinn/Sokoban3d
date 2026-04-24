@@ -1,0 +1,11 @@
+{
+	"name": "Sokoban.Infrastructure",
+	"references": [
+		"Sokoban.Core",
+		"Sokoban.Data",
+		"Sokoban.Gameplay"
+	],
+	"includePlatforms": [],
+	"excludePlatforms": [],
+	"autoReferenced": true
+}
