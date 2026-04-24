@@ -1,0 +1,12 @@
+{
+	"name": "Sokoban.Gameplay",
+	"references": [
+		"Sokoban.Core",
+		"Sokoban.Data",
+		"DOTween",
+		"UniTask"
+	],
+	"includePlatforms": [],
+	"excludePlatforms": [],
+	"autoReferenced": true
+}
