@@ -15,6 +15,9 @@ public class LevelView : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float _cellSize = 1f;
+    [SerializeField] private float _cameraHeight = 2.5f;
+    [SerializeField] private float _cameraZOffset = 1.5f;
+    [SerializeField] private float _cameraXRotation = 60f;
 
     private PlayerView _playerView;
     private readonly List<BoxView> _boxViews = new();
@@ -104,7 +107,7 @@ public class LevelView : MonoBehaviour
         if (Camera.main == null) return;
         float cx = (_model.Width - 1) * _cellSize / 2f;
         float cy = (_model.Height - 1) * _cellSize / 2f;
-        Camera.main.transform.position = new Vector3(cx, 8f, cy - 2f);
-        Camera.main.transform.rotation = Quaternion.Euler(55f, 0f, 0f);
+        Camera.main.transform.position = new Vector3(cx, _cameraHeight * cy, cy - _cameraZOffset * cy);
+        Camera.main.transform.rotation = Quaternion.Euler(_cameraXRotation, 0f, 0f);
     }
 }
