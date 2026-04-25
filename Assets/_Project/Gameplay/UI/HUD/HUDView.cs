@@ -8,14 +8,24 @@ public class HUDView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _movesText;
     [SerializeField] private Button _undoButton;
     [SerializeField] private Button _restartButton;
+    
+    private System.Action _onHistoryChanged;
+    private CommandHistory _currentHistory;
 
     public void Init(CommandHistory history, System.Action onUndo)
     {
-        UpdateMoves(history.MoveCount);
-        history.OnHistoryChanged += () => UpdateMoves(history.MoveCount);
+        if (_onHistoryChanged != null && _currentHistory != null)
+            _currentHistory.OnHistoryChanged -= _onHistoryChanged;
+        
+        _currentHistory = history;
+        _onHistoryChanged = () => UpdateMoves(history.MoveCount);
+        _currentHistory.OnHistoryChanged += _onHistoryChanged;
 
+        _undoButton.onClick.RemoveAllListeners();
         _undoButton.onClick.AddListener(() => onUndo?.Invoke());
         _restartButton.onClick.RemoveAllListeners();
+        
+        UpdateMoves(0);
     }
 
     public void SetRestartAction(System.Action onRestart)

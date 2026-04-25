@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
 
     private LevelModel _model;
     private CommandHistory _history;
+    private System.Action _onHistoryChanged;
     private CancellationTokenSource _cts;
     private bool _isAnimating;
 
@@ -31,6 +32,10 @@ public class LevelController : MonoBehaviour
         _winScreenView.Hide();
         
         _model = _levelRepository.GetLevel(_currentLevelIndex);
+
+        if (_history != null && _onHistoryChanged != null)
+            _history.OnHistoryChanged -= _onHistoryChanged;
+        
         _history = new CommandHistory();
         _levelView.Build(_model);
         
@@ -39,7 +44,8 @@ public class LevelController : MonoBehaviour
         _hudView.UpdateUndoButton(false);
 
         // Обновлять кнопку Undo при каждом изменении истории
-        _history.OnHistoryChanged += () => _hudView.UpdateUndoButton(_history.CanUndo);
+        _onHistoryChanged = () => _hudView.UpdateUndoButton(_history.CanUndo);
+        _history.OnHistoryChanged += _onHistoryChanged;
     }
 
     private void Update()
