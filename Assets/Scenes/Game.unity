@@ -208,13 +208,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73592639}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.33721668, y: 0.23508081, z: -0.08736235, w: 0.90740824}
-  m_LocalPosition: {x: -0.99508023, y: 4.9458494, z: -3.1173139}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &73592643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,6 +433,9 @@ MonoBehaviour:
   _boxPrefab: {fileID: 1725952605074020450, guid: 9a10b4a5d8c9c344ba670f6cd66afe82,
     type: 3}
   _cellSize: 1
+  _cameraHeight: 2.5
+  _cameraZOffset: 1.5
+  _cameraXRotation: 60
 --- !u!4 &341154094
 Transform:
   m_ObjectHideFlags: 0
