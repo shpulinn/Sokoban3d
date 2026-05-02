@@ -20,9 +20,16 @@ public class LevelController : MonoBehaviour
     private System.Action _onHistoryChanged;
     private CancellationTokenSource _cts;
     private bool _isAnimating;
+    private SaveServiceBase _saveService;
 
+    public void Init(SaveServiceBase saveService)
+    {
+        _saveService = saveService;
+    }
+    
     private void Start()
     {
+        //_saveService = new SaveService(_levelRepository.GetLevelCount());
         LoadLevel();
     }
 
@@ -131,6 +138,8 @@ public class LevelController : MonoBehaviour
     {
         _isAnimating = true;
         _hudView.SetInteractable(false);
+
+        _saveService.CompleteLevel(_currentLevelIndex, _history.MoveCount);
 
         bool hasNext = _currentLevelIndex + 1 < _levelRepository.GetLevelCount();
 
