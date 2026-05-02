@@ -9,6 +9,6 @@ public class GameBootstrapper : MonoBehaviour
     private void Awake()
     {
         var saveService = new SaveService(_levelRepository.GetLevelCount());
-        _levelController.Init(saveService);
+        _levelController.Init(saveService, SceneData.SelectedLevelIndex);
     }
 }

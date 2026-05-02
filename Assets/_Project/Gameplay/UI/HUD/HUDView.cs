@@ -8,6 +8,7 @@ public class HUDView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _movesText;
     [SerializeField] private Button _undoButton;
     [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _menuButton;
     
     private System.Action _onHistoryChanged;
     private CommandHistory _currentHistory;
@@ -24,6 +25,9 @@ public class HUDView : MonoBehaviour
         _undoButton.onClick.RemoveAllListeners();
         _undoButton.onClick.AddListener(() => onUndo?.Invoke());
         _restartButton.onClick.RemoveAllListeners();
+        
+        _menuButton.onClick.RemoveAllListeners();
+        _menuButton.onClick.AddListener(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Menu"));
         
         UpdateMoves(0);
     }

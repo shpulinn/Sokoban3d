@@ -22,9 +22,10 @@ public class LevelController : MonoBehaviour
     private bool _isAnimating;
     private SaveServiceBase _saveService;
 
-    public void Init(SaveServiceBase saveService)
+    public void Init(SaveServiceBase saveService, int startLevelIndex = 0)
     {
         _saveService = saveService;
+        _currentLevelIndex = startLevelIndex;
     }
     
     private void Start()

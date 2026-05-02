@@ -10,6 +10,7 @@ public class WinScreenView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _movesText;
     [SerializeField] private Button _nextLevelButton;
     [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _menuButton;
     [SerializeField] private CanvasGroup _canvasGroup;
     
     public void Show(int moves, bool hasNextLevel,
@@ -22,6 +23,9 @@ public class WinScreenView : MonoBehaviour
         _restartButton.onClick.RemoveAllListeners();
         _nextLevelButton.onClick.AddListener(() => onNext?.Invoke());
         _restartButton.onClick.AddListener(() => onRestart?.Invoke());
+        
+        _menuButton.onClick.RemoveAllListeners();
+        _menuButton.onClick.AddListener(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Menu"));
 
         gameObject.SetActive(true);
         _canvasGroup.alpha = 0f;
