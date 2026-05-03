@@ -21,16 +21,17 @@ public class LevelController : MonoBehaviour
     private CancellationTokenSource _cts;
     private bool _isAnimating;
     private SaveServiceBase _saveService;
+    private AudioServiceBase _audioService;
 
-    public void Init(SaveServiceBase saveService, int startLevelIndex = 0)
+    public void Init(SaveServiceBase saveService, int startLevelIndex = 0, AudioServiceBase audioService = null)
     {
         _saveService = saveService;
         _currentLevelIndex = startLevelIndex;
+        _audioService = audioService;
     }
     
     private void Start()
     {
-        //_saveService = new SaveService(_levelRepository.GetLevelCount());
         LoadLevel();
     }
 
@@ -46,6 +47,8 @@ public class LevelController : MonoBehaviour
         
         _history = new CommandHistory();
         _levelView.Build(_model);
+        
+        _model.OnBoxPlacedOnTarget += () => _audioService?.Play(SoundType.BoxOnTarget);
         
         _hudView.Init(_history, TryUndo);
         _hudView.SetRestartAction(Restart);
@@ -102,6 +105,15 @@ public class LevelController : MonoBehaviour
 
         _history.Execute(cmd);
 
+        if (pushesBox)
+        {
+            _audioService?.Play(SoundType.PushBox);
+        }
+        else
+        {
+            _audioService?.Play(SoundType.Step);
+        }
+
         await _levelView.AnimateMove(
             _model.PlayerPosition, boxOldPos, boxNewPos, _cts.Token);
 
@@ -124,6 +136,9 @@ public class LevelController : MonoBehaviour
         _isAnimating = false;
         
         _history.Undo();
+        
+        _audioService?.Play(SoundType.Undo);
+        
         _levelView.Build(_model);
         _hudView.SetInteractable(true);
     }
@@ -144,6 +159,8 @@ public class LevelController : MonoBehaviour
 
         bool hasNext = _currentLevelIndex + 1 < _levelRepository.GetLevelCount();
 
+        _audioService?.Play(SoundType.LevelComplete);
+        
         _winScreenView.Show(
             _history.MoveCount,
             hasNext,

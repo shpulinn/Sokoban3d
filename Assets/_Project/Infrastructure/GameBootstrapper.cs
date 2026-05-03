@@ -5,10 +5,11 @@ public class GameBootstrapper : MonoBehaviour
 {
     [SerializeField] private LevelController _levelController;
     [SerializeField] private LevelRepositoryBase _levelRepository;
+    [SerializeField] private MonoAudioService _audioService;
 
     private void Awake()
     {
         var saveService = new SaveService(_levelRepository.GetLevelCount());
-        _levelController.Init(saveService, SceneData.SelectedLevelIndex);
+        _levelController.Init(saveService, SceneData.SelectedLevelIndex, _audioService.Service);
     }
 }

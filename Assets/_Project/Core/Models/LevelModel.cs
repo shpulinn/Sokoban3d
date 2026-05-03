@@ -11,6 +11,7 @@ namespace _Project.Core
         public GridPosition PlayerPosition { get; private set; }
 
         public event Action OnStateChanged;
+        public event Action OnBoxPlacedOnTarget;
 
         public LevelModel(int width, int height, CellType[,] grid, GridPosition playerStart)
         {
@@ -87,6 +88,9 @@ namespace _Project.Core
 
             var toCell = GetCell(to);
             SetCell(to, toCell == CellType.Target ? CellType.BoxOnTarget : CellType.Box);
+            
+            if (toCell == CellType.Target)
+                OnBoxPlacedOnTarget?.Invoke();
 
             OnStateChanged?.Invoke();
         }
